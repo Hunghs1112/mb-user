@@ -15,32 +15,7 @@ function Deposit() {
             alert('Vui lòng đăng nhập để tiếp tục!');
             setAuthMessage('');
             navigate('/login');
-            return;
         }
-
-        // Verify account status for web users
-        const checkAccountStatus = async () => {
-            try {
-                const response = await fetch(`${API_CONFIG.BASE_URL}/check-session`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ user_id: user.id }),
-                });
-                const data = await response.json();
-                if (!data.success) {
-                    alert(data.message || 'Tài khoản không hợp lệ. Vui lòng gia hạn hoặc đăng nhập lại!');
-                    setAuthMessage('');
-                    navigate('/renew-account');
-                }
-            } catch (error) {
-                alert('Lỗi kết nối server!');
-                setAuthMessage('');
-                console.error(error);
-                navigate('/renew-account');
-            }
-        };
-
-        checkAccountStatus();
     }, [user, setAuthMessage, navigate]);
 
     // Function to capitalize first letter of recipientName
@@ -54,10 +29,7 @@ function Deposit() {
         try {
             const response = await fetch(`${API_CONFIG.BASE_URL}/cash-in`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-User-Id': user?.id, // Include user.id for authentication
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     username: user.username,
                     account_number: user.account_number,
