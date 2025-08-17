@@ -18,6 +18,12 @@ function Deposit() {
         }
     }, [isUnlocked, setAuthMessage, navigate]);
 
+    // Function to capitalize first letter of recipientName
+    const formatRecipientName = (name) => {
+        if (!name) return '';
+        return name.charAt(0).toUpperCase() + name.slice(1);
+    };
+
     const handleDeposit = async (e) => {
         e.preventDefault();
         try {
@@ -28,7 +34,7 @@ function Deposit() {
                     username: user.username,
                     account_number: user.account_number,
                     amount: parseFloat(amount),
-                    recipient_name: recipientName,
+                    recipient_name: formatRecipientName(recipientName),
                     recipient_account_number: recipientAccount,
                 }),
             });
@@ -66,7 +72,7 @@ function Deposit() {
                         type="text"
                         value={recipientName}
                         onChange={(e) => setRecipientName(e.target.value)}
-                        placeholder="Tên người gửi"
+                        placeholder="Nội dung chuyển khoản (tên người gửi + nội dung)"
                         className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <input
