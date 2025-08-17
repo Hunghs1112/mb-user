@@ -19,7 +19,7 @@ function Login() {
             });
             const data = await response.json();
             if (data.success) {
-                login(data.user);
+                login(data.user); // Store user data including user.id
                 navigate('/renew-account');
             } else {
                 alert(data.message || 'Đăng nhập thất bại!');

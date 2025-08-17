@@ -12,34 +12,31 @@ export function AuthProvider({ children }) {
         const storedAuth = localStorage.getItem('isAuthenticated');
         const storedUser = localStorage.getItem('user');
         if (storedAuth === 'true' && storedUser) {
+            const userData = JSON.parse(storedUser);
             setIsAuthenticated(true);
-            setUser(JSON.parse(storedUser));
-            // Check stored unlock status or set based on user data
-            const storedUnlock = localStorage.getItem('isUnlocked');
-            if (storedUnlock !== null) {
-                setIsUnlocked(JSON.parse(storedUnlock));
-            } else if (storedUser) {
-                const storedUserData = JSON.parse(storedUser);
-                setIsUnlocked(storedUserData.locked === 0); // Set based on locked field
-            }
+            setUser(userData);
+            // Set isUnlocked based on locked field from user data
+            const unlocked = userData.locked === 0; // 0 = unlocked, 1 = locked
+            setIsUnlocked(unlocked);
+            localStorage.setItem('isUnlocked', JSON.stringify(unlocked));
         }
     }, []);
 
-    const login = async (userData) => {
+    const login = (userData) => {
         setIsAuthenticated(true);
         setUser(userData);
-        // Set isUnlocked based on locked field from userData
         const unlocked = userData.locked === 0; // 0 = unlocked, 1 = locked
         setIsUnlocked(unlocked);
-        localStorage.setItem('isUnlocked', JSON.stringify(unlocked));
         localStorage.setItem('isAuthenticated', 'true');
         localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('isUnlocked', JSON.stringify(unlocked));
     };
 
     const logout = () => {
         setIsAuthenticated(false);
         setUser(null);
         setIsUnlocked(true);
+        setMessage('');
         localStorage.removeItem('isAuthenticated');
         localStorage.removeItem('user');
         localStorage.removeItem('isUnlocked');
