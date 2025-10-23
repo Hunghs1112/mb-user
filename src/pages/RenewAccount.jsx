@@ -1,159 +1,196 @@
-    import { useState, useEffect } from 'react';
-    import { useNavigate } from 'react-router-dom';
-    import { useAuth } from '../context/AuthContext';
-    import API_CONFIG from '../config/apiConfig';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import API_CONFIG from '../config/apiConfig';
 
-    function RenewAccount() {
-        const [plans, setPlans] = useState([]);
-        const [selectedPlan, setSelectedPlan] = useState('');
-        const [amount, setAmount] = useState(0);
-        const [bankCode, setBankCode] = useState('');
-        const [accountNumber, setAccountNumber] = useState('');
-        const { user, message, setAuthMessage } = useAuth();
-        const navigate = useNavigate();
+function RenewAccount() {
+    const [plans, setPlans] = useState([]);
+    const [selectedPlan, setSelectedPlan] = useState('');
+    const [amount, setAmount] = useState(0);
+    const [bankCode, setBankCode] = useState('');
+    const [accountNumber, setAccountNumber] = useState('');
+    const { user, message, setAuthMessage } = useAuth();
+    const navigate = useNavigate();
 
-        useEffect(() => {
-            fetchRentalPlans();
-            fetchQrInfo();
-        }, []);
+    useEffect(() => {
+        fetchRentalPlans();
+        fetchQrInfo();
+    }, []);
 
-        useEffect(() => {
-            if (message) {
-                alert(message);
-                setAuthMessage('');
-            }
-        }, [message, setAuthMessage]);
+    useEffect(() => {
+        if (message) {
+            alert(message);
+            setAuthMessage('');
+        }
+    }, [message, setAuthMessage]);
 
-        const fetchRentalPlans = async () => {
-            try {
-                const response = await fetch(`${API_CONFIG.BASE_URL}/rental-plans`);
-                const data = await response.json();
-                if (data.success) {
-                    setPlans(data.plans);
-                } else {
-                    alert('Lỗi tải danh sách gói gia hạn!');
-                    setAuthMessage('');
-                }
-            } catch (error) {
-                alert('Lỗi kết nối server!');
-                setAuthMessage('');
-                console.error(error);
-            }
-        };
-
-        const fetchQrInfo = async () => {
-            try {
-                const response = await fetch(`${API_CONFIG.BASE_URL}/qr-codes`);
-                const data = await response.json();
-                if (data.success) {
-                    setBankCode(data.bank_code);
-                    setAccountNumber(data.account_number);
-                } else {
-                    alert('Lỗi tải thông tin QR!');
-                    setAuthMessage('');
-                }
-            } catch (error) {
-                alert('Lỗi kết nối server!');
-                setAuthMessage('');
-                console.error(error);
-            }
-        };
-
-        const handlePlanChange = async (e) => {
-            const planId = e.target.value;
-            setSelectedPlan(planId);
-            if (planId) {
-                try {
-                    const response = await fetch(`${API_CONFIG.BASE_URL}/rental-plans/${planId}`);
-                    const data = await response.json();
-                    if (data.success) {
-                        const { price } = data.plan;
-                        setAmount(price);
-                    }
-                } catch (error) {
-                    alert('Lỗi tải giá!');
-                    setAuthMessage('');
-                    console.error(error);
-                }
+    const fetchRentalPlans = async () => {
+        try {
+            const response = await fetch(`${API_CONFIG.BASE_URL}/rental-plans`);
+            const data = await response.json();
+            if (data.success) {
+                setPlans(data.plans);
             } else {
-                setAmount(0);
+                alert('Lỗi tải danh sách gói gia hạn!');
             }
-        };
+        } catch (error) {
+            alert('Lỗi kết nối server!');
+        }
+    };
 
-        const handleConfirm = async () => {
-            if (!selectedPlan || amount <= 0) {
-                alert('Vui lòng chọn gói hợp lệ!');
-                return;
+    const fetchQrInfo = async () => {
+        try {
+            const response = await fetch(`${API_CONFIG.BASE_URL}/qr-codes`);
+            const data = await response.json();
+            if (data.success) {
+                setBankCode(data.bank_code);
+                setAccountNumber(data.account_number);
             }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handlePlanChange = async (e) => {
+        const planId = e.target.value;
+        setSelectedPlan(planId);
+        if (planId) {
             try {
-                const response = await fetch(`${API_CONFIG.BASE_URL}/payment`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        user_id: user.id,
-                        amount,
-                        user_account_number: user.account_number,
-                        user_name: user.name,
-                        status: 'pending'
-                    })
-                });
+                const response = await fetch(`${API_CONFIG.BASE_URL}/rental-plans/${planId}`);
                 const data = await response.json();
                 if (data.success) {
-                    alert('Yêu cầu thanh toán đã được gửi!');
-                    setAuthMessage('');
-                    navigate('/home');
-                } else {
-                    alert(data.message || 'Lỗi gửi yêu cầu thanh toán!');
-                    setAuthMessage('');
+                    setAmount(data.plan.price);
                 }
             } catch (error) {
-                alert('Lỗi kết nối server!');
-                setAuthMessage('');
                 console.error(error);
             }
-        };
+        } else {
+            setAmount(0);
+        }
+    };
 
-        const qrUrl = bankCode && accountNumber
-            ? `https://qrcode.io.vn/api/generate/${bankCode}/${accountNumber}/giahan_taikhoan`
-            : '';
+    const handleConfirm = async () => {
+        if (!selectedPlan || amount <= 0) {
+            alert('Vui lòng chọn gói hợp lệ!');
+            return;
+        }
+        try {
+            const response = await fetch(`${API_CONFIG.BASE_URL}/payment`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user_id: user.id,
+                    amount,
+                    user_account_number: user.account_number,
+                    user_name: user.name,
+                    status: 'pending'
+                })
+            });
+            const data = await response.json();
+            if (data.success) {
+                alert('Yêu cầu thanh toán đã được gửi!');
+                navigate('/deposit');
+            } else {
+                alert(data.message || 'Lỗi gửi yêu cầu thanh toán!');
+            }
+        } catch (error) {
+            alert('Lỗi kết nối server!');
+        }
+    };
 
-        return (
-            <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-                <div className="bg-gray-800 p-10 rounded-xl shadow-2xl w-full max-w-md">
-                    <h2 className="text-4xl font-bold mb-6 text-white text-center">Gia hạn tài khoản</h2>
-                    <form className="space-y-4">
-                        <select
-                            value={selectedPlan}
-                            onChange={handlePlanChange}
-                            className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                            <option value="">Chọn gói gia hạn</option>
-                            {plans.map((plan) => (
-                                <option key={plan.id} value={plan.id}>
-                                    {plan.duration} - ${plan.price}
-                                </option>
-                            ))}
-                        </select>
-                    </form>
-                    {selectedPlan && bankCode && accountNumber && (
-                        <div className="mt-6 text-center">
-                            <p className="text-white">Chuyển khoản đến:</p>
-                            <p className="text-white">Ngân hàng: {bankCode}</p>
-                            <p className="text-white">Số tài khoản: {accountNumber}</p>
-                            <p className="text-white">Số tiền: ${amount} (Nhập thủ công khi quét QR)</p>
-                            <p className="text-white">Nội dung: Gia hạn tài khoản</p>
-                            <img src={qrUrl} alt="QR Code" className="mx-auto mt-2" />
-                            <button
-                                onClick={handleConfirm}
-                                className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-300"
-                            >
-                                Xác nhận thanh toán
-                            </button>
+    const qrUrl = bankCode && accountNumber
+        ? `https://qrcode.io.vn/api/generate/${bankCode}/${accountNumber}/giahan_taikhoan`
+        : '';
+
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 flex items-center justify-center px-4 py-12">
+            <div className="w-full max-w-lg">
+                <div className="bg-white rounded-2xl shadow-xl p-8 border border-amber-100">
+                    <div className="flex items-center gap-4 mb-6">
+                        <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg">
+                            <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
                         </div>
-                    )}
+                        <div>
+                            <h1 className="text-2xl font-bold text-gray-900">Gia hạn tài khoản</h1>
+                            <p className="text-sm text-gray-600">Chọn gói và thanh toán để tiếp tục sử dụng</p>
+                        </div>
+                    </div>
+
+                    <div className="space-y-5">
+                        <div>
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                Chọn gói gia hạn
+                            </label>
+                            <select
+                                value={selectedPlan}
+                                onChange={handlePlanChange}
+                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent transition appearance-none font-medium"
+                            >
+                                <option value="">-- Chọn gói --</option>
+                                {plans.map((plan) => (
+                                    <option key={plan.id} value={plan.id}>
+                                        {plan.duration} - ${plan.price}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        {selectedPlan && bankCode && accountNumber && (
+                            <div className="space-y-5 mt-6">
+                                {/* Payment Info */}
+                                <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-5 border border-amber-200">
+                                    <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                        <svg className="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        Thông tin thanh toán
+                                    </h3>
+                                    <div className="space-y-3">
+                                        <div className="flex justify-between items-center bg-white rounded-lg p-3">
+                                            <span className="text-gray-600 text-sm">Ngân hàng:</span>
+                                            <span className="font-semibold text-gray-900">{bankCode}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center bg-white rounded-lg p-3">
+                                            <span className="text-gray-600 text-sm">Số tài khoản:</span>
+                                            <span className="font-semibold text-gray-900">{accountNumber}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center bg-white rounded-lg p-3">
+                                            <span className="text-gray-600 text-sm">Số tiền:</span>
+                                            <span className="font-bold text-amber-600 text-lg">${amount}</span>
+                                        </div>
+                                        <div className="flex justify-between items-center bg-white rounded-lg p-3">
+                                            <span className="text-gray-600 text-sm">Nội dung:</span>
+                                            <span className="font-semibold text-gray-900">Gia hạn tài khoản</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* QR Code */}
+                                <div className="bg-white rounded-xl p-6 border-2 border-dashed border-amber-300 text-center">
+                                    <p className="text-sm font-semibold text-gray-700 mb-4">Quét mã QR để thanh toán</p>
+                                    <div className="inline-block p-4 bg-white rounded-xl shadow-lg">
+                                        <img src={qrUrl} alt="QR Code" className="w-48 h-48 mx-auto" />
+                                    </div>
+                                    <p className="text-xs text-gray-500 mt-4">
+                                        Vui lòng nhập số tiền thủ công khi quét QR
+                                    </p>
+                                </div>
+
+                                <button
+                                    onClick={handleConfirm}
+                                    className="w-full py-3 bg-gradient-to-r from-amber-600 to-orange-600 text-white font-semibold rounded-xl hover:from-amber-700 hover:to-orange-700 transform hover:scale-[1.02] transition shadow-lg shadow-amber-500/50"
+                                >
+                                    Xác nhận thanh toán
+                                </button>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
+}
 
-    export default RenewAccount;
+export default RenewAccount;

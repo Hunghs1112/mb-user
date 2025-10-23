@@ -3,7 +3,6 @@ import { AuthProvider } from './context/AuthContext';
 import Navigation from './components/Navigation';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Home from './pages/Home';
 import Withdraw from './pages/Withdraw';
 import Deposit from './pages/Deposit';
 import ChangeAccountInfo from './pages/ChangeAccountInfo';
@@ -17,7 +16,6 @@ function App() {
                 <Routes>
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/home" element={<Home />} />
                     <Route path="/withdraw" element={<Withdraw />} />
                     <Route path="/deposit" element={<Deposit />} />
                     <Route path="/change-account-info" element={<ChangeAccountInfo />} />

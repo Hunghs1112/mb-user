@@ -5,34 +5,21 @@ import API_CONFIG from '../config/apiConfig';
 function ChangeAccountInfo() {
     const [name, setName] = useState('');
     const [accountNumber, setAccountNumber] = useState('');
-    const [imageFile, setImageFile] = useState(null); // For file upload
-    const [imageUrl, setImageUrl] = useState(''); // For URL input
+    const [imageFile, setImageFile] = useState(null);
+    const [imageUrl, setImageUrl] = useState('');
     const { user, setAuthMessage } = useAuth();
-
-    // Local state to manage user data independently of context
     const [localUser, setLocalUser] = useState(user || {});
 
-    // Debug user object on mount and update
     useEffect(() => {
-        console.log('User object (context):', user);
-        console.log('Local user object:', localUser);
-        // Refetch user data on mount to ensure current image is loaded
         fetchUser();
     }, [user]);
 
-    // Fetch user data
     const fetchUser = async () => {
         try {
             const response = await fetch(`${API_CONFIG.BASE_URL}/user/${user?.account_number || '123321123'}`);
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.log(`Fetch error: ${response.status}, ${errorText}`);
-                return;
-            }
+            if (!response.ok) return;
             const data = await response.json();
-            console.log('Fetched user data:', data);
             if (data.success && data.user) {
-                // Update local state and sync with localStorage
                 setLocalUser(data.user);
                 localStorage.setItem('user', JSON.stringify(data.user));
             }
@@ -41,20 +28,17 @@ function ChangeAccountInfo() {
         }
     };
 
-    // Handle image file change
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            setImageFile(file); // Store the file object
-            setImageUrl(''); // Clear URL if file is selected
+            setImageFile(file);
+            setImageUrl('');
         }
     };
 
-    // Handle URL change
     const handleUrlChange = (e) => {
-        const url = e.target.value;
-        setImageUrl(url); // Store the URL
-        setImageFile(null); // Clear file if URL is entered
+        setImageUrl(e.target.value);
+        setImageFile(null);
     };
 
     const handleUpdate = async (e) => {
@@ -63,9 +47,9 @@ function ChangeAccountInfo() {
         formData.append('name', name);
         formData.append('new_account_number', accountNumber);
         if (imageFile) {
-            formData.append('image', imageFile); // Append file for server to save
+            formData.append('image', imageFile);
         } else if (imageUrl) {
-            formData.append('image_url', imageUrl); // Append URL for server to store
+            formData.append('image_url', imageUrl);
         }
 
         try {
@@ -73,25 +57,16 @@ function ChangeAccountInfo() {
                 method: 'PUT',
                 body: formData,
             });
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-            }
             const data = await response.json();
-            console.log('Update response:', data);
             if (data.success) {
                 alert('Thông tin tài khoản đã được cập nhật!');
                 setAuthMessage('');
                 const updatedUser = { ...user };
                 if (accountNumber) updatedUser.account_number = accountNumber;
                 if (name) updatedUser.name = name;
-                if (data.image) {
-                    updatedUser.image = data.image; // Could be path or URL based on server response
-                }
-                // Update local state and sync with localStorage
+                if (data.image) updatedUser.image = data.image;
                 setLocalUser(updatedUser);
                 localStorage.setItem('user', JSON.stringify(updatedUser));
-                // Refetch to ensure consistency with server
                 await fetchUser();
             } else {
                 alert(data.message || 'Lỗi cập nhật thông tin!');
@@ -100,79 +75,130 @@ function ChangeAccountInfo() {
         } catch (error) {
             alert(`Lỗi kết nối server: ${error.message}`);
             setAuthMessage('');
-            console.error(error);
         }
     };
 
-    // Determine image source based on whether it's a local path or external URL
     const getImageSrc = (image) => {
         if (!image) return '';
-        // Check if it's an external URL (starts with http or https)
-        if (image.startsWith('http://') || image.startsWith('https://')) {
-            return image;
-        }
-        // Assume it's a local path (e.g., /uploads/...)
+        if (image.startsWith('http://') || image.startsWith('https://')) return image;
         return `${API_CONFIG.BASE_URL}${image}`;
     };
 
     return (
-        <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-            <div className="bg-gray-800 p-10 rounded-xl shadow-2xl w-full max-w-md">
-                <h2 className="text-4xl font-bold mb-6 text-white text-center">Đổi thông tin tài khoản</h2>
-                <div className="mb-6 text-center">
-                    <p className="text-white text-lg">Tên hiện tại: {localUser?.name || 'Chưa có thông tin'}</p>
-                    <p className="text-white text-lg">Số tài khoản hiện tại: {localUser?.account_number || 'Chưa có thông tin'}</p>
-                    <p className="text-white text-lg">Ảnh đại diện hiện tại: 
-                        {localUser?.image ? (
-                            <img 
-                                src={getImageSrc(localUser.image)} 
-                                alt="Current Avatar" 
-                                className="w-16 h-16 rounded-full mx-auto mt-2" 
-                                onError={(e) => { 
-                                    console.log('Image load error:', e); 
-                                    console.log('Image URL:', getImageSrc(localUser.image)); 
-                                }} 
-                            />
-                        ) : (
-                            'Chưa có ảnh'
-                        )}
-                    </p>
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center px-4 py-12">
+            <div className="w-full max-w-2xl">
+                <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-blue-100">
+                    {/* Header */}
+                    <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-8">
+                        <div className="flex items-center gap-4">
+                            <div className="flex-shrink-0 w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+                                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h1 className="text-2xl font-bold text-white">Thông tin tài khoản</h1>
+                                <p className="text-blue-100 text-sm">Quản lý thông tin cá nhân của bạn</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Current Info */}
+                    <div className="p-8 bg-gradient-to-br from-blue-50 to-indigo-50 border-b border-blue-100">
+                        <div className="flex items-center gap-6">
+                            <div className="flex-shrink-0">
+                                {localUser?.image ? (
+                                    <img 
+                                        src={getImageSrc(localUser.image)} 
+                                        alt="Avatar" 
+                                        className="w-24 h-24 rounded-2xl object-cover border-4 border-white shadow-lg" 
+                                    />
+                                ) : (
+                                    <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center shadow-lg">
+                                        <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        </svg>
+                                    </div>
+                                )}
+                            </div>
+                            <div className="flex-1 grid md:grid-cols-2 gap-4">
+                                <div className="bg-white rounded-xl p-4 shadow-sm">
+                                    <p className="text-xs text-gray-500 mb-1">Họ và tên</p>
+                                    <p className="text-base font-semibold text-gray-900">{localUser?.name || 'Chưa có'}</p>
+                                </div>
+                                <div className="bg-white rounded-xl p-4 shadow-sm">
+                                    <p className="text-xs text-gray-500 mb-1">Số tài khoản</p>
+                                    <p className="text-base font-semibold text-gray-900">{localUser?.account_number || 'Chưa có'}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Update Form */}
+                    <div className="p-8">
+                        <h3 className="text-lg font-bold text-gray-900 mb-6">Cập nhật thông tin</h3>
+                        <form onSubmit={handleUpdate} className="space-y-5" encType="multipart/form-data">
+                            <div className="grid md:grid-cols-2 gap-5">
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                        Tên mới
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                                        placeholder="Nhập tên mới"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                        Số tài khoản mới
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={accountNumber}
+                                        onChange={(e) => setAccountNumber(e.target.value)}
+                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                                        placeholder="Nhập số mới"
+                                    />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                    Tải ảnh đại diện
+                                </label>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleImageChange}
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-700 file:font-semibold hover:file:bg-blue-100"
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                    Hoặc nhập URL ảnh
+                                </label>
+                                <input
+                                    type="text"
+                                    value={imageUrl}
+                                    onChange={handleUrlChange}
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                                    placeholder="https://example.com/avatar.jpg"
+                                />
+                            </div>
+
+                            <button
+                                type="submit"
+                                className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 transform hover:scale-[1.02] transition shadow-lg shadow-blue-500/50 mt-6"
+                            >
+                                Cập nhật thông tin
+                            </button>
+                        </form>
+                    </div>
                 </div>
-                <form onSubmit={handleUpdate} className="space-y-4" encType="multipart/form-data">
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder="Tên mới (không bắt buộc)"
-                        className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <input
-                        type="text"
-                        value={accountNumber}
-                        onChange={(e) => setAccountNumber(e.target.value)}
-                        placeholder="Số tài khoản mới (không bắt buộc)"
-                        className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                        className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <input
-                        type="text"
-                        value={imageUrl}
-                        onChange={handleUrlChange}
-                        placeholder="Hoặc nhập URL ảnh (không bắt buộc)"
-                        className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <button
-                        type="submit"
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-300"
-                    >
-                        Cập nhật
-                    </button>
-                </form>
             </div>
         </div>
     );
