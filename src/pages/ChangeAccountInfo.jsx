@@ -85,11 +85,11 @@ function ChangeAccountInfo() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center px-4 py-12">
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center px-4 py-12 transition-colors duration-300">
             <div className="w-full max-w-2xl">
-                <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-blue-100">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-blue-100 dark:border-gray-700 transition-colors duration-300">
                     {/* Header */}
-                    <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-8">
+                    <div className="bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-700 dark:to-indigo-700 p-8">
                         <div className="flex items-center gap-4">
                             <div className="flex-shrink-0 w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
                                 <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -104,14 +104,14 @@ function ChangeAccountInfo() {
                     </div>
 
                     {/* Current Info */}
-                    <div className="p-8 bg-gradient-to-br from-blue-50 to-indigo-50 border-b border-blue-100">
+                    <div className="p-8 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800 border-b border-blue-100 dark:border-gray-700 transition-colors duration-300">
                         <div className="flex items-center gap-6">
                             <div className="flex-shrink-0">
                                 {localUser?.image ? (
                                     <img 
                                         src={getImageSrc(localUser.image)} 
                                         alt="Avatar" 
-                                        className="w-24 h-24 rounded-2xl object-cover border-4 border-white shadow-lg" 
+                                        className="w-24 h-24 rounded-2xl object-cover border-4 border-white dark:border-gray-700 shadow-lg" 
                                     />
                                 ) : (
                                     <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center shadow-lg">
@@ -122,13 +122,13 @@ function ChangeAccountInfo() {
                                 )}
                             </div>
                             <div className="flex-1 grid md:grid-cols-2 gap-4">
-                                <div className="bg-white rounded-xl p-4 shadow-sm">
-                                    <p className="text-xs text-gray-500 mb-1">Họ và tên</p>
-                                    <p className="text-base font-semibold text-gray-900">{localUser?.name || 'Chưa có'}</p>
+                                <div className="bg-white dark:bg-gray-700 rounded-xl p-4 shadow-sm transition-colors duration-300">
+                                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Họ và tên</p>
+                                    <p className="text-base font-semibold text-gray-900 dark:text-white">{localUser?.name || 'Chưa có'}</p>
                                 </div>
-                                <div className="bg-white rounded-xl p-4 shadow-sm">
-                                    <p className="text-xs text-gray-500 mb-1">Số tài khoản</p>
-                                    <p className="text-base font-semibold text-gray-900">{localUser?.account_number || 'Chưa có'}</p>
+                                <div className="bg-white dark:bg-gray-700 rounded-xl p-4 shadow-sm transition-colors duration-300">
+                                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Số tài khoản</p>
+                                    <p className="text-base font-semibold text-gray-900 dark:text-white">{localUser?.account_number || 'Chưa có'}</p>
                                 </div>
                             </div>
                         </div>
@@ -136,63 +136,63 @@ function ChangeAccountInfo() {
 
                     {/* Update Form */}
                     <div className="p-8">
-                        <h3 className="text-lg font-bold text-gray-900 mb-6">Cập nhật thông tin</h3>
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6">Cập nhật thông tin</h3>
                         <form onSubmit={handleUpdate} className="space-y-5" encType="multipart/form-data">
                             <div className="grid md:grid-cols-2 gap-5">
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                         Tên mới
                                     </label>
                                     <input
                                         type="text"
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
-                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition"
                                         placeholder="Nhập tên mới"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                         Số tài khoản mới
                                     </label>
                                     <input
                                         type="text"
                                         value={accountNumber}
                                         onChange={(e) => setAccountNumber(e.target.value)}
-                                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                                        className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition"
                                         placeholder="Nhập số mới"
                                     />
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                     Tải ảnh đại diện
                                 </label>
                                 <input
                                     type="file"
                                     accept="image/*"
                                     onChange={handleImageChange}
-                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 file:text-blue-700 file:font-semibold hover:file:bg-blue-100"
+                                    className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-blue-50 dark:file:bg-blue-900 file:text-blue-700 dark:file:text-blue-300 file:font-semibold hover:file:bg-blue-100 dark:hover:file:bg-blue-800"
                                 />
                             </div>
 
                             <div>
-                                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                     Hoặc nhập URL ảnh
                                 </label>
                                 <input
                                     type="text"
                                     value={imageUrl}
                                     onChange={handleUrlChange}
-                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                                    className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-transparent transition"
                                     placeholder="https://example.com/avatar.jpg"
                                 />
                             </div>
 
                             <button
                                 type="submit"
-                                className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 transform hover:scale-[1.02] transition shadow-lg shadow-blue-500/50 mt-6"
+                                className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-indigo-500 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 dark:hover:from-blue-600 dark:hover:to-indigo-600 transform hover:scale-[1.02] transition shadow-lg shadow-blue-500/50 dark:shadow-blue-500/30 mt-6"
                             >
                                 Cập nhật thông tin
                             </button>

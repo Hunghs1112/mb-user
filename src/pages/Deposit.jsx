@@ -72,9 +72,9 @@ function Deposit() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 flex items-center justify-center px-4 py-12">
+        <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center px-4 py-12 transition-colors duration-300">
             <div className="w-full max-w-lg">
-                <div className="bg-white rounded-2xl shadow-xl p-8 border border-emerald-100">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-emerald-100 dark:border-gray-700 transition-colors duration-300">
                     <div className="flex items-center gap-4 mb-6">
                         <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-lg">
                             <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -82,14 +82,14 @@ function Deposit() {
                             </svg>
                         </div>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-900">Nạp</h1>
-                            <p className="text-sm text-gray-600">Thực hiện giao dịch nạp vào tài khoản</p>
+                            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Nạp</h1>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">Thực hiện giao dịch nạp vào tài khoản</p>
                         </div>
                     </div>
 
                     <form onSubmit={handleDeposit} className="space-y-5">
                         <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                 Số tiền (VNĐ)
                             </label>
                             <div className="relative">
@@ -97,39 +97,39 @@ function Deposit() {
                                     type="text"
                                     value={displayAmount}
                                     onChange={handleAmountChange}
-                                    className="w-full px-4 py-3 bg-emerald-50/50 border border-emerald-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition text-lg font-semibold"
+                                    className="w-full px-4 py-3 bg-emerald-50/50 dark:bg-gray-700 border border-emerald-200 dark:border-gray-600 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:border-transparent transition text-lg font-semibold"
                                     placeholder="0"
                                     required
                                 />
-                                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-emerald-600 font-medium">
+                                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-emerald-600 dark:text-emerald-400 font-medium">
                                     VNĐ
                                 </div>
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                 Nội dung chuyển khoản
                             </label>
                             <input
                                 type="text"
                                 value={recipientName}
                                 onChange={(e) => setRecipientName(e.target.value)}
-                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
+                                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:border-transparent transition"
                                 placeholder="Tên người gửi + nội dung"
                                 required
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                 Số tài khoản người gửi
                             </label>
                             <input
                                 type="text"
                                 value={recipientAccount}
                                 onChange={(e) => setRecipientAccount(e.target.value)}
-                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
+                                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:border-transparent transition"
                                 placeholder="Nhập số tài khoản"
                                 required
                             />
@@ -137,7 +137,7 @@ function Deposit() {
 
                         <button
                             type="submit"
-                            className="w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-semibold rounded-xl hover:from-emerald-700 hover:to-teal-700 transform hover:scale-[1.02] transition shadow-lg shadow-emerald-500/50 mt-6"
+                            className="w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-500 dark:to-teal-500 text-white font-semibold rounded-xl hover:from-emerald-700 hover:to-teal-700 dark:hover:from-emerald-600 dark:hover:to-teal-600 transform hover:scale-[1.02] transition shadow-lg shadow-emerald-500/50 dark:shadow-emerald-500/30 mt-6"
                         >
                             Xác nhận nạp
                         </button>

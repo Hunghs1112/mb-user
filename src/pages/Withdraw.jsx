@@ -51,9 +51,9 @@ function Withdraw() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-rose-50 via-orange-50 to-amber-50 flex items-center justify-center px-4 py-12">
+        <div className="min-h-screen bg-gradient-to-br from-rose-50 via-orange-50 to-amber-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center px-4 py-12 transition-colors duration-300">
             <div className="w-full max-w-lg">
-                <div className="bg-white rounded-2xl shadow-xl p-8 border border-rose-100">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-rose-100 dark:border-gray-700 transition-colors duration-300">
                     <div className="flex items-center gap-4 mb-6">
                         <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-rose-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg">
                             <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,14 +61,14 @@ function Withdraw() {
                             </svg>
                         </div>
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-900">Rút tiền</h1>
-                            <p className="text-sm text-gray-600">Chuyển tiền đến tài khoản khác</p>
+                            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Rút tiền</h1>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">Chuyển tiền đến tài khoản khác</p>
                         </div>
                     </div>
 
                     <form onSubmit={handleWithdraw} className="space-y-5">
                         <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                 Số tiền (VNĐ)
                             </label>
                             <div className="relative">
@@ -76,39 +76,39 @@ function Withdraw() {
                                     type="number"
                                     value={amount}
                                     onChange={(e) => setAmount(e.target.value)}
-                                    className="w-full px-4 py-3 bg-rose-50/50 border border-rose-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition text-lg font-semibold"
+                                    className="w-full px-4 py-3 bg-rose-50/50 dark:bg-gray-700 border border-rose-200 dark:border-gray-600 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 dark:focus:ring-rose-400 focus:border-transparent transition text-lg font-semibold"
                                     placeholder="0"
                                     required
                                 />
-                                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-rose-600 font-medium">
+                                <div className="absolute right-4 top-1/2 -translate-y-1/2 text-rose-600 dark:text-rose-400 font-medium">
                                     VNĐ
                                 </div>
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                 Tên người nhận
                             </label>
                             <input
                                 type="text"
                                 value={recipientName}
                                 onChange={(e) => setRecipientName(e.target.value)}
-                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition"
+                                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 dark:focus:ring-rose-400 focus:border-transparent transition"
                                 placeholder="Nhập tên người nhận"
                                 required
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                                 Số tài khoản người nhận
                             </label>
                             <input
                                 type="text"
                                 value={recipientAccount}
                                 onChange={(e) => setRecipientAccount(e.target.value)}
-                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition"
+                                className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 dark:focus:ring-rose-400 focus:border-transparent transition"
                                 placeholder="Nhập số tài khoản"
                                 required
                             />
@@ -116,7 +116,7 @@ function Withdraw() {
 
                         <button
                             type="submit"
-                            className="w-full py-3 bg-gradient-to-r from-rose-600 to-orange-600 text-white font-semibold rounded-xl hover:from-rose-700 hover:to-orange-700 transform hover:scale-[1.02] transition shadow-lg shadow-rose-500/50 mt-6"
+                            className="w-full py-3 bg-gradient-to-r from-rose-600 to-orange-600 dark:from-rose-500 dark:to-orange-500 text-white font-semibold rounded-xl hover:from-rose-700 hover:to-orange-700 dark:hover:from-rose-600 dark:hover:to-orange-600 transform hover:scale-[1.02] transition shadow-lg shadow-rose-500/50 dark:shadow-rose-500/30 mt-6"
                         >
                             Xác nhận rút tiền
                         </button>
