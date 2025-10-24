@@ -72,11 +72,11 @@ function Deposit() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center px-4 py-12 transition-colors duration-300">
+        <div className="min-h-[calc(100vh-4rem)] bg-emerald-50 dark:bg-gray-900 flex items-center justify-center px-4 py-8 transition-colors duration-300">
             <div className="w-full max-w-lg">
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-emerald-100 dark:border-gray-700 transition-colors duration-300">
                     <div className="flex items-center gap-4 mb-6">
-                        <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center shadow-lg">
+                        <div className="flex-shrink-0 w-14 h-14 bg-emerald-600 dark:bg-emerald-700 rounded-2xl flex items-center justify-center shadow-lg">
                             <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                             </svg>
@@ -137,7 +137,7 @@ function Deposit() {
 
                         <button
                             type="submit"
-                            className="w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-500 dark:to-teal-500 text-white font-semibold rounded-xl hover:from-emerald-700 hover:to-teal-700 dark:hover:from-emerald-600 dark:hover:to-teal-600 transform hover:scale-[1.02] transition shadow-lg shadow-emerald-500/50 dark:shadow-emerald-500/30 mt-6"
+                            className="w-full py-3 bg-emerald-600 dark:bg-emerald-700 text-white font-semibold rounded-xl hover:bg-emerald-700 dark:hover:bg-emerald-800 transform hover:scale-[1.02] transition shadow-lg mt-6"
                         >
                             Xác nhận nạp
                         </button>

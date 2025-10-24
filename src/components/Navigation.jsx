@@ -7,7 +7,7 @@ function Navigation() {
     const { isDarkMode, toggleDarkMode } = useDarkMode();
 
     return (
-        <nav className="bg-gradient-to-r from-indigo-600 to-blue-500 dark:from-gray-800 dark:to-gray-900 shadow-lg transition-colors duration-300">
+        <nav className="bg-indigo-600 dark:bg-gray-800 shadow-lg transition-colors duration-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
                     <Link to="/login" className="flex items-center space-x-3 group">

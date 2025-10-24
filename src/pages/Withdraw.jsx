@@ -51,11 +51,11 @@ function Withdraw() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-rose-50 via-orange-50 to-amber-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center px-4 py-12 transition-colors duration-300">
+        <div className="min-h-[calc(100vh-4rem)] bg-rose-50 dark:bg-gray-900 flex items-center justify-center px-4 py-8 transition-colors duration-300">
             <div className="w-full max-w-lg">
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-rose-100 dark:border-gray-700 transition-colors duration-300">
                     <div className="flex items-center gap-4 mb-6">
-                        <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-rose-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg">
+                        <div className="flex-shrink-0 w-14 h-14 bg-rose-600 dark:bg-rose-700 rounded-2xl flex items-center justify-center shadow-lg">
                             <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
                             </svg>
@@ -116,7 +116,7 @@ function Withdraw() {
 
                         <button
                             type="submit"
-                            className="w-full py-3 bg-gradient-to-r from-rose-600 to-orange-600 dark:from-rose-500 dark:to-orange-500 text-white font-semibold rounded-xl hover:from-rose-700 hover:to-orange-700 dark:hover:from-rose-600 dark:hover:to-orange-600 transform hover:scale-[1.02] transition shadow-lg shadow-rose-500/50 dark:shadow-rose-500/30 mt-6"
+                            className="w-full py-3 bg-rose-600 dark:bg-rose-700 text-white font-semibold rounded-xl hover:bg-rose-700 dark:hover:bg-rose-800 transform hover:scale-[1.02] transition shadow-lg mt-6"
                         >
                             Xác nhận rút tiền
                         </button>

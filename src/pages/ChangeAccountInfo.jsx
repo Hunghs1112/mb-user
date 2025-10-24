@@ -85,11 +85,11 @@ function ChangeAccountInfo() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center px-4 py-12 transition-colors duration-300">
+        <div className="min-h-[calc(100vh-4rem)] bg-indigo-50 dark:bg-gray-900 flex items-center justify-center px-4 py-8 transition-colors duration-300">
             <div className="w-full max-w-2xl">
-                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-blue-100 dark:border-gray-700 transition-colors duration-300">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-indigo-100 dark:border-gray-700 transition-colors duration-300">
                     {/* Header */}
-                    <div className="bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-700 dark:to-indigo-700 p-8">
+                    <div className="bg-indigo-600 dark:bg-indigo-700 p-8">
                         <div className="flex items-center gap-4">
                             <div className="flex-shrink-0 w-14 h-14 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
                                 <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -104,7 +104,7 @@ function ChangeAccountInfo() {
                     </div>
 
                     {/* Current Info */}
-                    <div className="p-8 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800 border-b border-blue-100 dark:border-gray-700 transition-colors duration-300">
+                    <div className="p-8 bg-indigo-50 dark:bg-gray-900 border-b border-indigo-100 dark:border-gray-700 transition-colors duration-300">
                         <div className="flex items-center gap-6">
                             <div className="flex-shrink-0">
                                 {localUser?.image ? (
@@ -114,7 +114,7 @@ function ChangeAccountInfo() {
                                         className="w-24 h-24 rounded-2xl object-cover border-4 border-white dark:border-gray-700 shadow-lg" 
                                     />
                                 ) : (
-                                    <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center shadow-lg">
+                                    <div className="w-24 h-24 rounded-2xl bg-indigo-500 dark:bg-indigo-600 flex items-center justify-center shadow-lg">
                                         <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                         </svg>
@@ -192,7 +192,7 @@ function ChangeAccountInfo() {
 
                             <button
                                 type="submit"
-                                className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-indigo-500 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 dark:hover:from-blue-600 dark:hover:to-indigo-600 transform hover:scale-[1.02] transition shadow-lg shadow-blue-500/50 dark:shadow-blue-500/30 mt-6"
+                                className="w-full py-3 bg-indigo-600 dark:bg-indigo-700 text-white font-semibold rounded-xl hover:bg-indigo-700 dark:hover:bg-indigo-800 transform hover:scale-[1.02] transition shadow-lg mt-6"
                             >
                                 Cập nhật thông tin
                             </button>
