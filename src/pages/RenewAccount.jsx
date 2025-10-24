@@ -51,6 +51,15 @@ function RenewAccount() {
         }
     };
 
+    const formatCurrency = (value) => {
+        if (!value) return '0';
+        // Convert to integer to remove decimals
+        const intValue = Math.floor(Number(value));
+        const valueStr = intValue.toString();
+        // Format with comma separator for thousands
+        return valueStr.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    };
+
     const handlePlanChange = async (e) => {
         const planId = e.target.value;
         setSelectedPlan(planId);
@@ -131,7 +140,7 @@ function RenewAccount() {
                                 <option value="">-- Chọn gói --</option>
                                 {plans.map((plan) => (
                                     <option key={plan.id} value={plan.id}>
-                                        {plan.duration} - ${plan.price}
+                                        {plan.duration} - {formatCurrency(plan.price)} VNĐ
                                     </option>
                                 ))}
                             </select>
@@ -158,7 +167,7 @@ function RenewAccount() {
                                         </div>
                                         <div className="flex justify-between items-center bg-white dark:bg-gray-700 rounded-lg p-2.5 sm:p-3 transition-colors duration-300">
                                             <span className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">Số tiền:</span>
-                                            <span className="font-bold text-amber-600 dark:text-amber-400 text-base sm:text-lg">${amount}</span>
+                                            <span className="font-bold text-amber-600 dark:text-amber-400 text-base sm:text-lg">{formatCurrency(amount)} VNĐ</span>
                                         </div>
                                         <div className="flex justify-between items-center bg-white dark:bg-gray-700 rounded-lg p-2.5 sm:p-3 transition-colors duration-300">
                                             <span className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">Nội dung:</span>
