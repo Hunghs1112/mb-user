@@ -68,6 +68,9 @@ function ChangeAccountInfo() {
                 setLocalUser(updatedUser);
                 localStorage.setItem('user', JSON.stringify(updatedUser));
                 await fetchUser();
+                
+                // Tải lại trang để cập nhật các phần khác theo số tài khoản mới
+                window.location.reload();
             } else {
                 alert(data.message || 'Lỗi cập nhật thông tin!');
                 setAuthMessage('');
